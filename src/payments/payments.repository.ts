@@ -4,10 +4,16 @@ import { Payment } from './entities/payment.entitie';
 
 @Injectable()
 export class PaymentsRepository {
-  async create(paymentData: Partial<Payment>, userId: string) {
+  async create(paymentData: Partial<Payment>) {
     const { data, error } = await supabase
       .from('payments')
-      .insert([{ ...paymentData, creditor_id: userId }])
+      .insert([
+        {
+          ...paymentData,
+          created_at: new Date(),
+          payment_date: new Date(),
+        },
+      ])
       .select();
 
     if (error) throw new Error(error.message);

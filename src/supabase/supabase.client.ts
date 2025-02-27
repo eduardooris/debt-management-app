@@ -9,4 +9,9 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
   throw new Error('SUPABASE_URL ou SUPABASE_KEY não definidos nas variáveis de ambiente.');
 }
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY,{
+  auth:{
+    persistSession: false,
+    autoRefreshToken: false,
+  }
+});

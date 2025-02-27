@@ -18,12 +18,9 @@ import { Payment } from './entities/payment.entitie';
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
-  @Post('/:creditor_id')
-  create(
-    @Body() paymentData: Partial<Payment>,
-    @Param('creditor_id') creditor_id: string,
-  ) {
-    return this.paymentsService.create(paymentData, creditor_id);
+  @Post()
+  create(@Body() paymentData: Partial<Payment>) {
+    return this.paymentsService.create(paymentData);
   }
 
   @Get('/:creditor_id')

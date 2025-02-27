@@ -5,6 +5,6 @@ export class Loan {
   amount: number;
   interest_rate: number;
   due_date: Date;
-  status: string;
+  status: "PENDING" | "PAID" | "OVERDUE";
   created_at: Date;
 }

@@ -16,10 +16,13 @@ export class LoansRepository {
 
   async findAll(userId: string): Promise<Loan[]> {
     const { data, error } = await supabase
-      .from('loans')
-      .select('*')
-      .eq('creditor_id', userId);
-
+    .from('loans')
+    .select(`
+      *,
+      total_paid:payments!loan_id(amount_paid)
+    `)
+    .eq('creditor_id', userId);
+  
     if (error) throw new Error(error.message);
     return data;
   }

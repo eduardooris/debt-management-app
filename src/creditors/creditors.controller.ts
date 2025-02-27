@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param } from '@nestjs/common';
 import { CreditorsService } from './creditors.service';
 import { Creditor } from './entities/creditor.entity';
 
@@ -14,6 +14,11 @@ export class CreditorsController {
   @Get()
   findAll() {
     return this.creditorsService.findAll();
+  }
+
+  @Get('/:id')
+  getDataCreditor(@Param('id') accessToken: string) {
+    return this.creditorsService.getDataCreditor(accessToken);
   }
 
   @Post('login')

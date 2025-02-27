@@ -23,10 +23,17 @@ export class DebtorsRepository {
 
   async getDebtorsByCreditor(creditorId: string) {
     const { data, error } = await supabase
-      .from('debtors')
-      .select('*')
-      .eq('creditor_id', creditorId);
-
+    .from('debtors')
+    .select(`
+      *,
+      loans (
+        amount,
+        due_date,
+        status,
+        payments (amount_paid)
+      )
+    `)
+    .eq('creditor_id', creditorId);
     if (error) {
       throw new Error(error.message);
     }

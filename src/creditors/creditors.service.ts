@@ -19,17 +19,26 @@ export class CreditorsService {
     });
   }
 
+  async getDataCreditor(
+    accessToken: string,
+  ): Promise<Omit<Creditor, 'password'>> {
+    const user = await this.creditorsRepository.findByAccessToken(accessToken);
+    return this.creditorsRepository.findByAuthId(user.id);
+  }
+
   findAll(): Promise<Creditor[]> {
     return this.creditorsRepository.findAll();
   }
 
   async signIn(email: string, password: string) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) throw new Error(error.message);
-    return data.session;
+    const { user, access_token, refresh_token } =
+      await this.creditorsRepository.signIn(email, password);
+    const creditor = await this.creditorsRepository.findByAuthId(user.id);
+    return {
+      creditor,
+      access_token,
+      refresh_token,
+    };
   }
 
   async resetPassword(email: string) {
@@ -42,7 +51,7 @@ export class CreditorsService {
     const { data, error } = await supabase.auth.refreshSession({
       refresh_token: refreshToken,
     });
-
+    console.log(data)
     if (error || !data.session) {
       throw new UnauthorizedException('Failed to refresh token');
     }

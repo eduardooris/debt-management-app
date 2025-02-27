@@ -6,8 +6,8 @@ import { Payment } from './entities/payment.entitie';
 @Injectable()
 export class PaymentsService {
   constructor(private readonly paymentsRepository: PaymentsRepository) {}
-  async create(paymentData: Partial<Payment>, userId: string) {
-    return this.paymentsRepository.create(paymentData, userId);
+  async create(paymentData: Partial<Payment>) {
+    return this.paymentsRepository.create(paymentData);
   }
 
   async findAll(userId: string) {
