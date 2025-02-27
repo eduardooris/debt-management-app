@@ -6,6 +6,8 @@ import { DebtorsModule } from './debtors/debtors.module';
 import { LoansModule } from './loans/loans.module';
 import { ConfigModule } from '@nestjs/config';
 import { PaymentsModule } from './payments/payments.module';
+import { KeepAliveModule } from './keep-alive/keep-alive.module';
+import { PingController } from './ping/ping.controller';
 @Module({
   imports: [
     CreditorsModule,
@@ -15,8 +17,9 @@ import { PaymentsModule } from './payments/payments.module';
       isGlobal: true,
     }),
     PaymentsModule,
+    KeepAliveModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, PingController],
   providers: [AppService],
 })
 export class AppModule {}
